@@ -516,17 +516,19 @@ static INLINE void Asr1( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Add3( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd, Rn, Rm;
+	uint32_t                NewRd;
 
 	Rd						= ( OpCode >>  0 ) & 0x07;
 	Rn						= ( OpCode >>  3 ) & 0x07;
 	Rm						= ( OpCode >>  6 ) & 0x07;
 
-	State->Core.Regs[Rd]	= State->Core.Regs[Rn] + State->Core.Regs[Rm];
+	NewRd               	= State->Core.Regs[Rn] + State->Core.Regs[Rm];
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] < State->Core.Regs[Rn] ? 1 : 0;
-	State->Core.CPSR.V		= (( State->Core.Regs[Rn] ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 && (( State->Core.Regs[Rd] ^ State->Core.Regs[Rn] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd < State->Core.Regs[Rn] ? 1 : 0;
+	State->Core.CPSR.V		= (( State->Core.Regs[Rn] ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 && (( NewRd ^ State->Core.Regs[Rn] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR] |= 0xf0000000;
 	}/*============================================================================*/
 /*
@@ -539,17 +541,19 @@ static INLINE void Add3( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Sub3( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd, Rn, Rm;
+	uint32_t                NewRd;
 
 	Rd						= ( OpCode >>  0 ) & 0x07;
 	Rn						= ( OpCode >>  3 ) & 0x07;
 	Rm						= ( OpCode >>  6 ) & 0x07;
 
-	State->Core.Regs[Rd]	= State->Core.Regs[Rn] - State->Core.Regs[Rm];
+	NewRd               	= State->Core.Regs[Rn] - State->Core.Regs[Rm];
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] > State->Core.Regs[Rn] ? 1 : 0;
-	State->Core.CPSR.V		= (( State->Core.Regs[Rn] ^ State->Core.Regs[Rm] ) & 0x80000000 ) != 0 && (( State->Core.Regs[Rd] ^ State->Core.Regs[Rn] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd > State->Core.Regs[Rn] ? 1 : 0;
+	State->Core.CPSR.V		= (( State->Core.Regs[Rn] ^ State->Core.Regs[Rm] ) & 0x80000000 ) != 0 && (( NewRd ^ State->Core.Regs[Rn] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR] |= 0xf0000000;
 	}/*============================================================================*/
 /*
@@ -562,17 +566,19 @@ static INLINE void Sub3( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Add1( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd, Rn, Immediate;
+	uint32_t                NewRd;
 
 	Rd						= ( OpCode >>  0 ) & 0x07;
 	Rn						= ( OpCode >>  3 ) & 0x07;
 	Immediate				= ( OpCode >>  6 ) & 0x07;
 
-	State->Core.Regs[Rd]	= State->Core.Regs[Rn] + Immediate;
+	NewRd               	= State->Core.Regs[Rn] + Immediate;
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] < State->Core.Regs[Rn] ? 1 : 0;
-	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rn] > 0 && (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd < State->Core.Regs[Rn] ? 1 : 0;
+	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rn] > 0 && (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR] |= 0xf0000000;
 	}/*============================================================================*/
 /*
@@ -585,17 +591,19 @@ static INLINE void Add1( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Sub1( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd, Rn, Immediate;
+	uint32_t                NewRd;
 
 	Rd						= ( OpCode >>  0 ) & 0x07;
 	Rn						= ( OpCode >>  3 ) & 0x07;
 	Immediate				= ( OpCode >>  6 ) & 0x07;
 
-	State->Core.Regs[Rd]	= State->Core.Regs[Rn] - Immediate;
+	NewRd                 	= State->Core.Regs[Rn] - Immediate;
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] > State->Core.Regs[Rn] ? 1 : 0;
-	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rn] < 0 && (int32_t)State->Core.Regs[Rd] > 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd > State->Core.Regs[Rn] ? 1 : 0;
+	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rn] < 0 && (int32_t)NewRd > 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR] |= 0xf0000000;
 	}/*============================================================================*/
 /*
@@ -650,18 +658,18 @@ static INLINE void Cmp1( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Add2( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd;
-	uint32_t				Immediate, Original;
+	uint32_t				Immediate, NewRd;
 
 	Rd						= ( OpCode >>  8 ) & 0x07;
 	Immediate				= ( OpCode >>  0 ) & 0xff;
 
-	Original				= State->Core.Regs[Rd];
-	State->Core.Regs[Rd]   += Immediate;
+	NewRd                   = State->Core.Regs[Rd] + Immediate;
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] < Original ? 1 : 0;
-	State->Core.CPSR.V		= (int32_t)Original > 0 && (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd < State->Core.Regs[Rd] ? 1 : 0;
+	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rd] > 0 && (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR]	= 0xf0000000;
 	}/*============================================================================*/
 /*
@@ -675,18 +683,18 @@ static INLINE void Add2( thumbstate_t *State, uint16_t OpCode )
 static INLINE void Sub2( thumbstate_t *State, uint16_t OpCode )
 	{
 	unsigned int			Rd;
-	uint32_t				Immediate, Original;
+	uint32_t				Immediate, NewRd;
 
 	Rd						= ( OpCode >>  8 ) & 0x07;
 	Immediate				= ( OpCode >>  0 ) & 0xff;
 
-	Original				= State->Core.Regs[Rd];
-	State->Core.Regs[Rd]   -= Immediate;
+	NewRd                   = State->Core.Regs[Rd] - Immediate;
 	State->Core.Written[Rd]	= 1;
-	State->Core.CPSR.N		= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z		= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C		= State->Core.Regs[Rd] > Original ? 1 : 0;
-	State->Core.CPSR.V		= (int32_t)Original < 0 && (int32_t)State->Core.Regs[Rd] > 0 ? 1 : 0;
+	State->Core.CPSR.N		= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z		= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C		= NewRd > State->Core.Regs[Rd] ? 1 : 0;
+	State->Core.CPSR.V		= (int32_t)State->Core.Regs[Rd] < 0 && (int32_t)NewRd > 0 ? 1 : 0;
+	State->Core.Regs[Rd]    = NewRd;
 	State->Core.Written[CPSR]	= 0xf0000000;
 	}/*============================================================================*/
 
@@ -816,14 +824,14 @@ static INLINE void AluAsr2( thumbstate_t *State, unsigned int Rd, unsigned int R
 */
 static INLINE void AluAdc( thumbstate_t *State, unsigned int Rd, unsigned int Rm )
 	{
-	uint32_t					Original;
+	uint32_t					NewRd;
 
-	Original					= State->Core.Regs[Rd];
-	State->Core.Regs[Rd]	   += State->Core.Regs[Rm] + State->Core.CPSR.C;
-	State->Core.CPSR.N			= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z			= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C			= State->Core.Regs[Rd] < Original ? 1 : 0;
-	State->Core.CPSR.V			= (( Original ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 && (( State->Core.Regs[Rd] ^ Original ) & 0x80000000 ) != 0 ? 1 : 0;
+	NewRd               	    = State->Core.Regs[Rd] + ( State->Core.Regs[Rm] + State->Core.CPSR.C );
+	State->Core.CPSR.N			= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z			= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C			= NewRd < State->Core.Regs[Rd] ? 1 : 0;
+	State->Core.CPSR.V			= (( State->Core.Regs[Rd] ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 && (( NewRd ^ State->Core.Regs[Rd] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.Regs[Rd]        = NewRd;
 	State->Core.Written[CPSR]	= 0xf0000000;
 	}
 /*============================================================================*/
@@ -836,14 +844,14 @@ static INLINE void AluAdc( thumbstate_t *State, unsigned int Rd, unsigned int Rm
 */
 static INLINE void AluSbc( thumbstate_t *State, unsigned int Rd, unsigned int Rm )
 	{
-	uint32_t					Original;
+	uint32_t					NewRd;
 
-	Original					= State->Core.Regs[Rd];
-	State->Core.Regs[Rd]	   -= State->Core.Regs[Rm] + State->Core.CPSR.C;
-	State->Core.CPSR.N			= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z			= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C			= State->Core.Regs[Rd] > Original ? 1 : 0;
-	State->Core.CPSR.V			= (( Original ^ State->Core.Regs[Rm] ) & 0x80000000 ) != 0 && (( State->Core.Regs[Rd] ^ Original ) & 0x80000000 ) != 0 ? 1 : 0;
+	NewRd               	    = State->Core.Regs[Rd] - ( State->Core.Regs[Rm] + State->Core.CPSR.C );
+	State->Core.CPSR.N			= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z			= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C			= NewRd > State->Core.Regs[Rd] ? 1 : 0;
+	State->Core.CPSR.V			= (( State->Core.Regs[Rd] ^ State->Core.Regs[Rm] ) & 0x80000000 ) != 0 && (( NewRd ^ State->Core.Regs[Rd] ) & 0x80000000 ) != 0 ? 1 : 0;
+	State->Core.Regs[Rd]        = NewRd;
 	State->Core.Written[CPSR]	= 0xf0000000;
 	}
 /*============================================================================*/
@@ -905,12 +913,15 @@ static INLINE void AluTst( thumbstate_t *State, unsigned int Rn, unsigned int Rm
 */
 static INLINE void AluNeg( thumbstate_t *State, unsigned int Rd, unsigned int Rm )
 	{
-	State->Core.Regs[Rd]		= 0 - State->Core.Regs[Rm];
+    uint32_t                    NewRd;
+
+	NewRd               		= 0 - State->Core.Regs[Rm];
 	State->Core.Written[Rd]		= 1;
-	State->Core.CPSR.N			= (int32_t)State->Core.Regs[Rd] < 0 ? 1 : 0;
-	State->Core.CPSR.Z			= State->Core.Regs[Rd] == 0 ? 1 : 0;
-	State->Core.CPSR.C			= State->Core.Regs[Rd] > 0 ? 1 : 0;
-	State->Core.CPSR.V			= (( State->Core.Regs[Rd] ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 ? 1 : 0;
+	State->Core.CPSR.N			= (int32_t)NewRd < 0 ? 1 : 0;
+	State->Core.CPSR.Z			= NewRd == 0 ? 1 : 0;
+	State->Core.CPSR.C			= NewRd > 0 ? 1 : 0;
+	State->Core.CPSR.V			= (( NewRd ^ State->Core.Regs[Rm] ) & 0x80000000 ) == 0 ? 1 : 0;
+	State->Core.Regs[Rd]        = NewRd;
 	State->Core.Written[CPSR]	= 0xf0000000;
 	}
 /*============================================================================*/

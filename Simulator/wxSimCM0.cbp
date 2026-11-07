@@ -16,26 +16,25 @@
 					<Add option="-Og" />
 					<Add option="-g" />
 					<Add option="-D__WXDEBUG__" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib/mswud" />
+					<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib/mswud" />
+					<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
 					<Add option="-static" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwx_mswu_gl-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwx_mswu-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxexpat-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxjpeg-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxpng-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxregexu-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxscintilla-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxtiff-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib/libwxzlib-3.2.a" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/build/wxMSW+D-s+M+U/lib" />
+					<Add library="libwx_mswu_gl-3.2.a" />
+					<Add library="libwx_mswu-3.2.a" />
+					<Add library="libwxexpat-3.2.a" />
+					<Add library="libwxjpeg-3.2.a" />
+					<Add library="libwxpng-3.2.a" />
+					<Add library="libwxregexu-3.2.a" />
+					<Add library="libwxscintilla-3.2.a" />
+					<Add library="libwxtiff-3.2.a" />
+					<Add library="libwxzlib-3.2.a" />
+					<Add directory="C:/programs/wxwidgets-v3.2.12/build/wxMSW+D+M-s+U/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -46,27 +45,26 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib/mswu" />
+					<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib/mswu" />
+					<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
 					<Add option="-static" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwx_mswu_gl-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwx_mswu-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxexpat-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxjpeg-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxpng-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxregexu-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxscintilla-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxtiff-3.2.a" />
-					<Add library="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib/libwxzlib-3.2.a" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/lib/gcc_lib" />
-					<Add directory="C:/Programs/wxWidgets-3.2.5/build/wxMSW-d-s+M+U/lib" />
+					<Add library="libwx_mswu_gl-3.2.a" />
+					<Add library="libwx_mswu-3.2.a" />
+					<Add library="libwxexpat-3.2.a" />
+					<Add library="libwxjpeg-3.2.a" />
+					<Add library="libwxpng-3.2.a" />
+					<Add library="libwxregexu-3.2.a" />
+					<Add library="libwxscintilla-3.2.a" />
+					<Add library="libwxtiff-3.2.a" />
+					<Add library="libwxzlib-3.2.a" />
+					<Add directory="C:/programs/wxwidgets-v3.2.12/build/wxMSW+D+M-s+U/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -79,10 +77,10 @@
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add directory="C:/Programs/wxWidgets-3.2.5/include" />
+			<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="C:/Programs/wxWidgets-3.2.5/include" />
+			<Add directory="C:/Programs/wxWidgets-v3.2.12/include" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-static-libstdc++" />
@@ -106,6 +104,7 @@
 			<Add library="libversion.a" />
 			<Add library="liboleacc.a" />
 			<Add library="libuxtheme.a" />
+			<Add directory="C:/programs/wxwidgets-v3.2.12/build/wxMSW+D+M-s+U/lib" />
 		</Linker>
 		<Unit filename="BitVector.c">
 			<Option compilerVar="CC" />
